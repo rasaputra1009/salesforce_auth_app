@@ -10,7 +10,7 @@ Built with **Vue.js (frontend)**, **Node.js/Express (backend)**, **PostgreSQL (d
 
 - **Frontend:** [https://salesforce-auth-app.onrender.com](https://salesforce-auth-app.onrender.com)  
 - **Backend API:** [https://salesforce-auth-api.onrender.com](https://salesforce-auth-api.onrender.com)  
-- **Repository:** [GitHub](https://github.com/rasaputra1009/salesforce_auth_app)
+
 
 ---
 
