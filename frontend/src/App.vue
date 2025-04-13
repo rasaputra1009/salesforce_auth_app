@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script lang="ts">
@@ -11,7 +9,3 @@ export default defineComponent({
   name: 'App',
 });
 </script>
-
-<style>
-@import './assets/styles.css';
-</style>

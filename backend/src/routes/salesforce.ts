@@ -1,9 +1,9 @@
 import express from 'express';
-import { getAccounts } from '../controllers/salesforceController';
+import { getSalesforceAccounts } from '../controllers/salesforceController';
 import authenticateToken from '../middleware/auth';
 
 const router = express.Router();
 
-router.get('/accounts', authenticateToken, getAccounts);
+router.get('/accounts', authenticateToken, getSalesforceAccounts);
 
 export default router;

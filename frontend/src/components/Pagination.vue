@@ -1,27 +1,21 @@
 <template>
-  <div v-if="totalPages > 1" class="pagination">
-    <button
-      class="btn btn-outline-primary me-2"
-      :disabled="currentPage === 1"
-      @click="changePage(currentPage - 1)"
-      :aria-disabled="currentPage === 1 ? 'true' : 'false'"
-    >
-      Previous
-    </button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button
-      class="btn btn-outline-primary ms-2"
-      :disabled="currentPage === totalPages"
-      @click="changePage(currentPage + 1)"
-      :aria-disabled="currentPage === totalPages ? 'true' : 'false'"
-    >
-      Next
-    </button>
-  </div>
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" :class="{ disabled: currentPage === 1 }">
+        <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
+      </li>
+      <li v-for="page in totalPages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+        <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+        <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'Pagination',
@@ -35,12 +29,10 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['page-changed'],
   methods: {
     changePage(page: number) {
-      // Only emit the event if the page change is valid (i.e., within bounds)
-      if (page >= 1 && page <= this.totalPages) {
-        this.$emit('page-changed', page);
-      }
+      this.$emit('page-changed', page);
     },
   },
 });
@@ -49,8 +41,29 @@ export default defineComponent({
 <style scoped>
 .pagination {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+.page-item {
+  margin: 0 5px;
+}
+.page-link {
+  color: #007bff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.page-link:hover {
+  background-color: #f8f9fa;
+}
+.active .page-link {
+  background-color: #007bff;
+  color: white;
+}
+.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #e9ecef;
 }
 </style>
