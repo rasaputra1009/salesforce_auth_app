@@ -234,3 +234,27 @@ Test endpoints:
 - https://salesforce-auth-api.onrender.com/api/auth/register
 - https://salesforce-auth-api.onrender.com/api/auth/login
 - https://salesforce-auth-api.onrender.com/api/salesforce/accounts
+
+### Challenges and Solutions:
+- **Custom npm Registry Issue**: `ETIMEDOUT` errors on Render due to using `npm.devsnc.com` as the registry.  
+  ✅ **Fix**: Forced the default registry `https://registry.npmjs.org/` via `.npmrc` and preinstall scripts.
+
+- **TypeScript Build Failure**: Missing `dist/server.js` on Render because `tsc` wasn't executed.  
+  ✅ **Fix**: Updated the build command to `npm install && npm run build`.
+
+- **CORS Issues**: Network errors in the browser due to an unset or mismatched `FRONTEND_URL`.  
+  ✅ **Fix**: Ensured `FRONTEND_URL` matches the production frontend URL and improved CORS logic with a dynamic origin function.
+
+- **Database Connection Issue**: `getaddrinfo ENOTFOUND undefined` caused by a missing `DATABASE_URL`.  
+  ✅ **Fix**: Validated and set `DATABASE_URL` in the Render Dashboard.
+
+- **Salesforce Integration Issue**: OAuth setup errors due to incorrect environment variables and jsforce configuration.  
+  ✅ **Fix**: Ensured correct environment variables and properly configured jsforce for Salesforce integration.
+
+- **Challenges Faced**:  
+  - New to Vue.js  
+  - Integrating OAuth2.0  
+  - Understanding jsforce Salesforce integration  
+  - Deploying the app on Render production
+
+
