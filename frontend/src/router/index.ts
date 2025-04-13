@@ -24,21 +24,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
-  console.log('Route guard triggered for path:', to.path, 'Token:', token);
 
   if (to.meta.requiresAuth && !token) {
-    console.log('No token, redirecting to /login');
     next('/login');
     return;
   }
 
   if (to.meta.requiresAuth && token) {
     try {
-      console.log('Validating token with /api/auth/verify');
       await axios.get(`${process.env.VUE_APP_API_URL}/api/auth/verify`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log('Token validated successfully');
       next();
     } catch (error: any) {
       console.error('Token validation failed:', error.response?.data || error.message);
@@ -50,10 +46,8 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else if ((to.path === '/login' || to.path === '/register') && token) {
-    console.log('Redirecting to /dashboard due to existing token');
     next('/dashboard');
   } else {
-    console.log('Proceeding to next route');
     next();
   }
 });

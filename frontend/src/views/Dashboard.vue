@@ -66,7 +66,6 @@ export default defineComponent({
   },
   methods: {
     async fetchAccounts() {
-      console.log('Fetching accounts, page:', this.currentPage);
       this.isLoading = true;
       this.errorMessage = '';
       try {
@@ -83,7 +82,7 @@ export default defineComponent({
           }
         );
         this.accounts = response.data.accounts;
-        this.totalPages = Math.ceil(response.data.totalSize / this.pageSize); // Calculate totalPages from totalSize
+        this.totalPages = Math.ceil(response.data.totalSize / this.pageSize); 
         this.currentPage = response.data.currentPage;
       } catch (error: any) {
         console.error('Fetch error:', error.response?.data || error.message);
@@ -119,7 +118,6 @@ export default defineComponent({
     },
   },
   mounted() {
-    console.log('Dashboard component mounted, calling fetchAccounts');
     this.fetchAccounts();
   },
 });

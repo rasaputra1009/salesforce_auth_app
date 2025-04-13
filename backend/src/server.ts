@@ -6,6 +6,7 @@ import salesforceRoutes from './routes/salesforce';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import authenticateToken from './middleware/auth';
+import logger from './config/logger'; 
 
 dotenv.config();
 
@@ -30,20 +31,22 @@ app.use('/api/salesforce', salesforceRoutes);
 // Verify endpoint
 const verifyRouter = express.Router();
 verifyRouter.get('/verify', authenticateToken, (req: Request, res: Response) => {
+  logger.info('GET /api/auth/verify called');
   res.json({ message: 'Token valid' });
 });
 app.use('/api/auth', verifyRouter);
 
 // Global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
+  logger.error(`Global error: ${err.message}`, { stack: err.stack });
   res.status(500).json({ message: 'Something went wrong!', error: err.message });
 });
 
 // Catch-all route for undefined endpoints
 app.use((req: Request, res: Response) => {
+  logger.warn(`404 Not Found - ${req.method} ${req.originalUrl}`);
   res.status(404).json({ message: 'API endpoint not found' });
 });
 
 const PORT = parseInt(process.env.PORT || '5000', 10);
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => logger.info(`🚀 Server running on port ${PORT}`));
