@@ -118,12 +118,12 @@ git clone https://github.com/rasaputra1009/salesforce_auth_app
 cd salesforce_auth_app
 ```
 
-# Install frontend dependencies
+### Install frontend dependencies
 ```
 cd frontend
 npm install
 ```
-# Install backend dependencies
+### Install backend dependencies
 ```
 cd ../backend
 npm install
