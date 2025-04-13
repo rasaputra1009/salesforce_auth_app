@@ -9,9 +9,6 @@
   "engines": {
     "node": "16.x"
   },
-  "config": {
-    "npmRegistry": "https://registry.npmjs.org/"
-  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.7",
