@@ -19,20 +19,24 @@ interface Account {
   Phone?: string;
 }
 
-const {
-  SALESFORCE_TOKEN_URL,
-  SALESFORCE_CLIENT_ID,
-  SALESFORCE_CLIENT_SECRET,
-  SALESFORCE_INSTANCE_URL,
-} = process.env;
+// Safely get env vars
+const getEnvVar = (key: string): string => {
+  const value = process.env[key];
+  if (!value) {
+    logger.error(`Missing required env variable: ${key}`);
+    process.exit(1);
+  }
+  return value;
+};
 
-if (!SALESFORCE_TOKEN_URL || !SALESFORCE_CLIENT_ID || !SALESFORCE_CLIENT_SECRET || !SALESFORCE_INSTANCE_URL) {
-  logger.error('Missing required Salesforce environment variables');
-  process.exit(1);
-}
+const SALESFORCE_TOKEN_URL = getEnvVar('SALESFORCE_TOKEN_URL');
+const SALESFORCE_CLIENT_ID = getEnvVar('SALESFORCE_CLIENT_ID');
+const SALESFORCE_CLIENT_SECRET = getEnvVar('SALESFORCE_CLIENT_SECRET');
+const SALESFORCE_INSTANCE_URL = getEnvVar('SALESFORCE_INSTANCE_URL');
 
+// Token cache
 let accessToken: string | null = null;
-let tokenExpiry: number = 0;
+let tokenExpiry = 0;
 
 const getAccessToken = async (): Promise<string> => {
   if (accessToken && Date.now() < tokenExpiry) {
@@ -56,8 +60,9 @@ const getAccessToken = async (): Promise<string> => {
     logger.info('Salesforce access token obtained successfully');
     return accessToken;
   } catch (error: any) {
-    logger.error(`Failed to obtain Salesforce token: ${JSON.stringify(error.response?.data || error.message)}`);
-    throw new Error(`Error obtaining access token: ${error.response?.data?.error_description || error.message}`);
+    const message = error.response?.data?.error_description || error.message;
+    logger.error(`Failed to obtain Salesforce token: ${JSON.stringify(error.response?.data || message)}`);
+    throw new Error(`Error obtaining access token: ${message}`);
   }
 };
 
