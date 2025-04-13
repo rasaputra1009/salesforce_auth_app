@@ -61,35 +61,47 @@ Built with **Vue.js (frontend)**, **Node.js/Express (backend)**, **PostgreSQL (d
 
 ## 🧱 Architecture
 
-### 🎨 Frontend (Vue.js)
+## Components
 
-- Handles user interface: Login, Register, Dashboard.
-- Uses Axios to make secure API requests.
-- Environment variables configured via `.env`.
+### Frontend:
+- Built with Vue.js 3 and TypeScript, providing a responsive UI with Login, Register, and Dashboard views.
+- Utilizes Axios for HTTP requests, with environment variables managed via `.env` files.
+- Implements JWT-based authentication and protected routes using Vue Router.
 
-### 🖥️ Backend (Express + TypeScript)
+### Backend:
+- Developed with Node.js, Express.js, and TypeScript, compiled to JavaScript for production.
+- Exposes RESTful APIs for authentication (`/api/auth`) and Salesforce integration (`/api/salesforce`).
+- Utilizes PostgreSQL for user data storage with bcrypt for password hashing and middleware for JWT authentication, CORS, and error handling.
+- Integrates Salesforce using the jsforce library with OAuth 2.0 for secure API access.
+- Implements logging using Winston for robust monitoring and error tracking.
 
-- Express server written in TypeScript.
-- Compiled to `dist/` for production.
-- **Routes:**
-  - `/api/auth` – login, register, verify
-  - `/api/salesforce` – account data
-- **Middleware:**
-  - JWT authentication
-  - CORS
-  - Central error handler
-- **Database:**
-  - PostgreSQL managed via `pg`
-  - Stores registered users
-- **Salesforce:**
-  - jsforce used to access Salesforce APIs securely
+### Database:
+- PostgreSQL database on Render, with a users table managed by the backend.
+- Connections are handled via a pooled client, and the database schema is initialized on startup.
 
-### 🔐 Security
+### Deployment:
+- Hosted on Render with the frontend as a Static Site and the backend as a Web Service.
+- PostgreSQL is securely linked to the backend, with environment variables managing sensitive data.
 
-- `.env` used for secrets (DB, JWT, Salesforce credentials)
-- JWT-based auth
-- CORS configured for allowed frontend origin
+## Approach
 
+### Security:
+- JWT tokens for session management, secure cookies, and CORS dynamically configured for frontend origin.
+- Sensitive data managed via environment variables, preventing hardcoding.
+
+### Scalability:
+- Decoupled frontend and backend allow independent scaling, with Render's auto-scaling capabilities.
+
+### Development:
+- TypeScript ensures type safety, with Git for version control and a structured codebase for maintainability.
+
+### Integration:
+- jsforce simplifies Salesforce API calls, with OAuth 2.0 ensuring secure access. Logging with Winston provides robust monitoring and error handling.
+
+### Deployment:
+- CI/CD pipeline on Render for automated builds and environment variable management, ensuring consistency.
+
+This architecture optimizes functionality, security, and scalability, providing a foundation for future enhancements.
 ---
 
 ## ⚙️ Setup Instructions
