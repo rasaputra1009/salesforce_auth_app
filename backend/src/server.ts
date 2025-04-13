@@ -13,10 +13,8 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration (dynamic for deployment)
-const allowedOrigins = [process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : process.env.FRONTEND_URL || ''];
 app.use(cors({
-  origin: allowedOrigins,
+  origin: true,
   credentials: true,
 }));
 app.use(express.json());
